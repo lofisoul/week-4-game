@@ -1,0 +1,162 @@
+body,
+html {
+  height:100%;
+}
+
+.start-screen {
+  background:$mainColor;
+  position:absolute;
+  width:100%;
+  height:100%;
+}
+
+
+.start-screen .title-box {
+  @include centerer(true, false);
+  transition:.3s all cubic-bezier($cubicbez);
+  top:-100%;
+}
+
+.start-screen.activate .title-box {
+  @include centerer(true,true);
+}
+
+//character select screen
+
+.character-select .inner {
+  height:100%;
+}
+
+.dude {
+  width:17px;
+  height:32px;
+  background-image:url(../images/characters.png);
+  background-repeat:no-repeat;
+  // -webkit-animation: walk .8s steps(3) infinite, move 10s infinite;
+  // -moz-animation:    walk .8s steps(3) infinite, move 10s infinite;
+  // -o-animation:      walk .8s steps(3) infinite, move 10s infinite;
+  // animation:         walk .8s steps(3) infinite, move 10s infinite;
+  // position:absolute;
+  // left:100%;
+  position:absolute;
+}
+
+.character-select .dude {
+  @include centerer;
+  &:after {
+    @include centerer(true,false);
+    top:100%;
+    text-transform:uppercase;
+    letter-spacing: 3px;
+    color:$black;
+    transition:color .4s ease-in-out;
+  }
+}
+
+.character-select li:hover .dude:after {
+  color:#fff;
+}
+
+.character-select ul {
+  max-width:250px;
+  margin:0 auto;
+}
+
+.character-select ul > li {
+  position:relative;
+  height:100px;
+  transition:background-color .4s ease-in-out;
+  cursor:pointer;
+}
+
+.character-select ul > li.tex:hover {
+  background-color:$green;
+}
+
+.character-select ul > li.blade:hover {
+  background-color:$mainColor;
+}
+
+.character-select ul > li.jerry:hover {
+  background-color:$accentYellow;
+}
+
+.character-select ul > li.reggie:hover {
+  background-color:$red;
+}
+
+
+.dude.tex {
+  background-position:0 0;
+}
+
+.dude.blade {
+  background-position:0 -40px;
+}
+
+.dude.jerry {
+  background-position:0 -80px;
+}
+
+.dude.reggie {
+  background-position:0 -118px;
+}
+
+.dude.tex.face-left {
+  background-position:-24px 0;
+}
+
+.dude.blade.face-left {
+  background-position:-24px -40px;
+}
+
+.dude.jerry.face-left {
+  background-position:-24px -80px;
+}
+
+.dude.reggie.face-left {
+  background-position:-23px -118px;
+}
+
+.character-select .dude.tex:after {
+  content:'Tex';
+}
+
+.character-select .dude.blade:after {
+  content:'Blade';
+}
+
+.character-select .dude.jerry:after {
+  content:'Jerry';
+}
+
+.character-select .dude.reggie:after {
+  content:'Reggie';
+}
+
+//SAVE THESE ANIMATIONS FOR LATER
+@-webkit-keyframes walk {
+  100%   {background-position:-56px 0;}
+}
+@-moz-keyframes walk {
+  100%   {background-position:-56px 0;}
+}
+@-o-keyframes walk {
+  100%   {background-position:-56px 0;}
+}
+@keyframes walk {
+    100%   {background-position:-56px 0;}
+}
+
+@-webkit-keyframes move {
+  100%   {left:0;}
+}
+@-moz-keyframes move {
+  100%   {left:0;}
+}
+@-o-keyframes move {
+  100%   {left:0;}
+}
+@keyframes move {
+  100%   {left:0;}
+}

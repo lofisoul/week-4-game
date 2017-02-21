@@ -1,0 +1,23 @@
+@mixin prefix($property, $value, $prefixes: ()) {
+  @each $prefix in $prefixes {
+    #{'-' + $prefix + '-' + $property}: $value;
+  }
+
+  // Output standard non-prefixed declaration
+  #{$property}: $value;
+}
+
+@mixin centerer($horizontal: true, $vertical: true) {
+  position: absolute;
+  @if ($horizontal and $vertical) {
+    top: 50%;
+    left: 50%;
+	@include prefix(transform, translate(-50%, -50%), webkit ms);
+  } @else if ($horizontal) {
+    left: 50%;
+    @include prefix(transform, translate(-50%, 0), webkit ms);
+  } @else if ($vertical) {
+    top: 50%;
+    @include prefix(transform, translate(0, -50%), webkit ms);
+  }
+}

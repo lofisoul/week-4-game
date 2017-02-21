@@ -1,0 +1,65 @@
+body {
+  font-family: $roboto;
+  font-weight:400;
+  color:#333;
+}
+
+.start-screen {
+  color:#fff;
+  text-align:center;
+}
+
+.start-screen h1 {
+  font-family: $ceviche;
+  font-size:40px;
+  color:$accentYellow;
+  padding-bottom:150px;
+  &:after {
+    content:"";
+    display:block;
+    position:absolute;
+    width:386px;
+    height:109px;
+    background:url(../images/ransom.png) no-repeat;
+    background-size:cover;
+    left:50%;
+    margin-left:-193px
+  }
+}
+
+.starting {
+  -webkit-animation: blink .5s infinite;
+  -moz-animation:    blink .5s infinite;
+  -o-animation:      blink .5s infinite;
+  animation:         blink .5s infinite;
+}
+
+@-webkit-keyframes blink {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-moz-keyframes blink {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@-o-keyframes blink {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes blink {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.character-select h2 {
+  font-size:36px;
+  font-family:$ceviche;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+.character-select p {
+  color:$black;
+  text-align:center;
+  margin-bottom:30px;
+}
