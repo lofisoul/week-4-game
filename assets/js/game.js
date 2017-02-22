@@ -9,6 +9,7 @@ var game = {
   wins: 0,
   isStarted: false,
   attackComplete: false,
+  fightOver: false,
   startGame: function(e) {
     if (game.isStarted === true) {
       return;
@@ -121,15 +122,17 @@ var game = {
     $('.fight-screen .opponent .damage').addClass('blip');
     setTimeout(function(){$('.fight-screen .opponent .damage').removeClass('blip').empty();}, 1000);
     $('.fight-screen .opponent-health').html(game.opponent.hp);
+    game.attackComplete = true;
+    //check to see who won?
+    game.winFight();
+    //if no winner run counterAttack
     setTimeout(function(){
-      game.attackComplete = true;
       game.counterAttack();
     }, 1000);
-    game.winFight();
     }
   },
   counterAttack: function() {
-    if (!game.attackComplete === true) {
+    if (game.attackComplete === false && fightOver === true) {
       return
     }
     else{
@@ -151,13 +154,17 @@ var game = {
       $('.fight-screen .player .damage').addClass('blip');
       setTimeout(function(){$('.fight-screen .player .damage').removeClass('blip').empty();}, 1000);
       $('.fight-screen .player-health').html(game.player.hp);
+      //attack over
       game.attackComplete = false;
-      game.winFight();
+      //check to see who won the fight
+      // game.winFight();
     }
   },
   winFight: function() {
+    console.log('win fight is running ' + game.fightOver);
     if(game.opponent.hp <= 0) {
-      console.log('a winner is you!');
+      game.fightOver = true;
+      console.log('a winner is you! ' + game.fightOver);
       // game.attackComplete = true;
       game.isStarted = false;
       $('.fight-screen .stage').append('<h2>You Win!</h2>');
@@ -166,9 +173,10 @@ var game = {
       $('.player-health, .opponent-health').empty();
       // game.fightOverTaunt();
     }
-    if(game.player.hp <= 0) {
+    else if(game.player.hp <= 0) {
+      game.fightOver = true;
       console.log('you lose!');
-      game.attackComplete = true;
+      game.isStarted = false;
       $('.fight-screen stage').append('<h2>You Lose!</h2>');
       setTimeout(function(){$('.fight-screen .stage h2').addClass('fight');},1500);
       // setTimeout(function(){$('.fight-screen').removeClass('activate');},1500);
