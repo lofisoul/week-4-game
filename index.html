@@ -18,7 +18,7 @@
     <!--<div class="dude"></div>-->
   </div>
 </div>
-<div class="character-select modal">
+<div class="character-select modal" id="start">
   <div class="inner">
     <h2>Choose Your Fighter!</h2>
     <p class="starting">Click on the character to begin.</p>
@@ -30,10 +30,41 @@
   </ul>
 </div>
 </div>
-<div class="fight-screen modal"></div>
-<div class="taunt-screen modal">
+<div class="character-select modal" id="opponents">
+  <div class="inner">
+    <h2>Choose Your Opponent!</h2>
+    <p class="starting">Click on the character to FIGHT.</p>
+    <div class="wrap row">
+    <div class="selected-player col-xs-6"></div>
+  <ul class="ul-basic col-xs-6">
 
+  </ul>
 </div>
+</div>
+</div>
+<div class="taunt-screen modal">
+  <div class="inner">
+    <h2>Versus: <span></span></h2>
+<div class="selected-player"></div>
+<div class="taunt"></div>
+<button class="btn start-fight">Fight!</button>
+</div>
+</div>
+<div class="fight-screen modal">
+  <div class="inner">
+    <div class="stage"><h2>Fight!</h2></div>
+    <div class="fight-controls clearfix">
+        <div class="player-health col-xs-4"></div>
+        <div class="btn-wrap col-xs-4">
+              <button class="btn attack">ATTACK!</button>
+        </div>
+        <div class="opponent-health col-xs-4">
+        </div>
+    </div>
+
+  </div>
+</div>
+
   <script
     src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="

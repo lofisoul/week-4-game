@@ -1151,6 +1151,15 @@ body {
   text-align: center;
   margin-bottom: 30px; }
 
+.btn {
+  background: #C84C0C;
+  color: #F0BC3C;
+  border: 0;
+  display: block; }
+
+.start-fight, .attack {
+  margin: 0 auto; }
+
 .modal {
   position: fixed;
   z-index: -1;
@@ -1217,7 +1226,7 @@ html {
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%); }
 
-.character-select .inner {
+.inner {
   height: 100%; }
 
 .dude {
@@ -1246,7 +1255,9 @@ html {
     color: #010101;
     transition: color .4s ease-in-out; }
 
-.character-select li:hover .dude:after {
+.character-select li.selected .dude:after,
+.character-select li:hover .dude:after,
+.selected-player .dude:after {
   color: #fff; }
 
 .character-select ul {
@@ -1259,16 +1270,24 @@ html {
   transition: background-color .4s ease-in-out;
   cursor: pointer; }
 
-.character-select ul > li.tex:hover {
+.character-select ul > li.tex:hover,
+.character-select ul > li.tex.selected,
+.selected-player.tex {
   background-color: #58F898; }
 
-.character-select ul > li.blade:hover {
+.character-select ul > li.blade:hover,
+.character-select ul > li.blade.selected,
+.selected-player.blade {
   background-color: #C84C0C; }
 
-.character-select ul > li.jerry:hover {
+.character-select ul > li.jerry:hover,
+.character-select ul > li.jerry.selected,
+.selected-player.jerry {
   background-color: #F0BC3C; }
 
-.character-select ul > li.reggie:hover {
+.character-select ul > li.reggie:hover,
+.character-select ul > li.reggie.selected,
+.selected-player.reggie {
   background-color: #DF2F0B; }
 
 .dude.tex {
@@ -1306,6 +1325,87 @@ html {
 
 .character-select .dude.reggie:after {
   content: 'Reggie'; }
+
+.selected-player {
+  position: relative;
+  height: 100px; }
+
+#opponents .wrap {
+  max-width: 250px;
+  margin: 0 auto; }
+
+.taunt-screen .selected-player .dude {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%); }
+
+.taunt {
+  text-align: center;
+  margin-bottom: 20px; }
+
+.fight-screen .stage {
+  height: 320px;
+  max-width: 680px;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: relative;
+  margin: 0 auto 20px; }
+
+.fight-screen .stage.turf {
+  background-image: url(../images/turf.jpg); }
+
+.fight-screen .dude {
+  top: 200px; }
+
+.fight-screen .player .dude {
+  left: 45%; }
+
+.fight-screen .opponent .dude {
+  left: 55%; }
+
+.fight-screen .stage h2 {
+  opacity: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-family: "Ceviche One", cursive;
+  font-size: 40px;
+  transition: all 0.4s cubic-bezier(0.46, -0.34, 0.54, 1.3); }
+
+.fight-screen .stage h2.fight {
+  opacity: 0;
+  visibility: hidden;
+  font-size: 55px; }
+
+.fight-controls {
+  max-width: 680px;
+  margin: 0 auto; }
+
+.opponent-health {
+  text-align: right; }
+
+.fighter {
+  position: relative; }
+
+.damage {
+  position: absolute;
+  right: 100%;
+  bottom: 90%;
+  color: #fff;
+  font-weight: 700;
+  opacity: 0;
+  transition: all .4s ease-in-out; }
+
+.damage.blip {
+  bottom: 105%;
+  opacity: 1; }
 
 @-webkit-keyframes walk {
   100% {
