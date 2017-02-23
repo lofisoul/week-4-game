@@ -10,6 +10,7 @@ var game = {
   isStarted: false,
   attackComplete: false,
   fightOver: false,
+  winner: false,
   startGame: function(e) {
     if (game.isStarted === true) {
       return;
@@ -36,6 +37,8 @@ var game = {
         var selectedChar = {};
         // loop through array for .name prop matching our searchName
         for (var i=0; i < characters.length; i++) {
+            //reset hp
+            characters[i].hp = 100;
             if (characters[i].name === searchName) {
               //found it!
                 game.player = characters[i];
@@ -47,6 +50,7 @@ var game = {
             }
         }
         $(this).addClass('selected');
+        $('#opponents .selected-player, #opponents ul').empty();
         console.log(game.player);
         console.log(game.opponentBin);
         $('#opponents .selected-player').addClass(game.player.className).append('<span class="sr-only">' + game.player.name + '</span><span class="dude '+ game.player.className + '"></span>');
@@ -81,7 +85,7 @@ var game = {
    }
  },
  opponentTaunt: function(taunt) {
-   $('.taunt').text(taunt);
+   $('.taunt-screen .taunt').text(taunt);
    $('.taunt-screen h2 span').text(game.opponent.name);
    $('.taunt-screen .selected-player').addClass(game.opponent.className).append('<span class="sr-only">' + game.opponent.name + '</span><span class="dude '+ game.opponent.className + '"></span>');
    $('#opponents').removeClass('activate');
@@ -91,20 +95,22 @@ var game = {
     $('.fight-screen .stage').addClass(game.opponent.stage);
     $('.fight-screen .stage').append('<div class="fighter player ' + game.player.className + '"><span class="sr-only">' + game.player.name + '</span><span class="dude '+ game.player.className + '"><span class="damage"></span></span>');
     $('.fight-screen .stage').append('<div class="fighter opponent ' + game.opponent.className + '"><span class="sr-only">' + game.opponent.name + '</span><span class="dude face-left '+ game.opponent.className + '"><span class="damage"></span></span>');
-    $('.player-health').append(game.player.name + ': ' +game.player.hp);
-    $('.opponent-health').append(game.opponent.name + ': ' +game.opponent.hp);
+    $('.fight-screen .player-name').append(game.player.name);
+    $('.fight-screen .player-health').append(game.player.hp);
+    $('.fight-screen .opponent-name').append(game.opponent.name);
+    $('.fight-screen .opponent-health').append(game.opponent.hp);
     $('.taunt-screen').removeClass('activate');
     $('.fight-screen').addClass('activate');
     setTimeout(function(){$('.fight-screen .stage h2').addClass('fight');},1500);
  },
  attack: function() {
    if (game.attackComplete === true) {
-     return
+     return;
    }
    else {
     //medium attack generates hits between 20-35 on random
     var attack = Math.floor(Math.random() * (35 - 20 + 1)) + 20;
-    console.log(attack);
+    console.log('attack: ' + attack);
     if (game.opponent.def === 'hi') {
       attack = attack - 15;
     }
@@ -113,26 +119,56 @@ var game = {
       attack = attack - 5;
     }
 
-    else {
-      return attack;
+    else { //redundant - *remove me*
+      attack = attack;
     }
 
     game.opponent.hp -= attack;
+    console.log(game.opponent.hp);
     $('.fight-screen .opponent .damage').html('-'+attack);
     $('.fight-screen .opponent .damage').addClass('blip');
     setTimeout(function(){$('.fight-screen .opponent .damage').removeClass('blip').empty();}, 1000);
     $('.fight-screen .opponent-health').html(game.opponent.hp);
     game.attackComplete = true;
-    //check to see who won?
-    game.winFight();
+
+    var gameOver = game.isFightOver();
+    if (gameOver === true) {
+      //you win and launch the taunt
+      console.log('game over is true');
+      game.launchTaunt(game.player);
+    }
+    else {
+      console.log('run couter attack');
     //if no winner run counterAttack
-    setTimeout(function(){
-      game.counterAttack();
-    }, 1000);
+        setTimeout(function(){
+          game.counterAttack();
+        }, 1000);
+      }
+    }
+  },
+  isFightOver: function(){
+    console.log('opponent: ' + game.opponent.hp); //debug *remove me*
+    console.log('player: ' + game.player.hp); //debug *remove me*
+    if(game.opponent.hp <= 0) {
+      console.log('computer wins');
+      game.fightOver = true;
+      game.winner = true;
+      return true;
+    }
+    else if (game.player.hp <=0) {
+      console.log('you win');
+      game.fightOver = true;
+      game.winner = false;
+      return true;
+    }
+    else {
+      console.log('the battle rages on!');
+      game.fightOver = false;
+      return false;
     }
   },
   counterAttack: function() {
-    if (game.attackComplete === false && fightOver === true) {
+    if (game.attackComplete === false && game.fightOver === true) {
       return
     }
     else{
@@ -141,12 +177,12 @@ var game = {
         attack = attack - 15;
       }
 
-      else if (game.opponent.def === 'lo') {
+      else if (game.player.def === 'lo') {
         attack = attack - 5;
       }
 
       else {
-        return attack;
+        attack = attack;
       }
 
       game.player.hp -= attack;
@@ -155,35 +191,56 @@ var game = {
       setTimeout(function(){$('.fight-screen .player .damage').removeClass('blip').empty();}, 1000);
       $('.fight-screen .player-health').html(game.player.hp);
       //attack over
-      game.attackComplete = false;
-      //check to see who won the fight
-      // game.winFight();
+
+      var gameOver = game.isFightOver();
+      if (gameOver === true) {
+        game.launchTaunt(game.opponent);
+      }
+      else {
+        game.attackComplete = false;
+      }
     }
   },
-  winFight: function() {
-    console.log('win fight is running ' + game.fightOver);
-    if(game.opponent.hp <= 0) {
-      game.fightOver = true;
-      console.log('a winner is you! ' + game.fightOver);
-      // game.attackComplete = true;
-      game.isStarted = false;
+  launchTaunt: function(char) {
+    console.log('taunting!');
+    if(game.winner) {
       $('.fight-screen .stage').append('<h2>You Win!</h2>');
+      $('.end-taunt .inner').prepend('<h2>You Win!</h2>');
       setTimeout(function(){$('.fight-screen .stage h2').addClass('fight');},1500);
-      // setTimeout(function(){$('.fight-screen').removeClass('activate');},1500);
-      $('.player-health, .opponent-health').empty();
-      // game.fightOverTaunt();
     }
-    else if(game.player.hp <= 0) {
-      game.fightOver = true;
-      console.log('you lose!');
+    else {
+      $('.fight-screen .stage').append('<h2>You Lose!</h2>');
+      $('.end-taunt .inner').prepend('<h2>You Lose!</h2>');
+      setTimeout(function(){$('.fight-screen .stage h2').addClass('fight');},1500);
+    }
+      setTimeout(function(){$('.fight-screen').removeClass('activate');}, 1000);
+      console.log('launch the taunt modal!')
+      $('.end-taunt').addClass('activate');
+      $('.end-taunt .taunt').text(char.winTaunt);
+      $('.end-taunt .selected-player').addClass(char.className).append('<span class="sr-only">' + char.name + '</span><span class="dude '+ char.className + '"></span>');
+  },
+  resetFight: function() {
       game.isStarted = false;
-      $('.fight-screen stage').append('<h2>You Lose!</h2>');
-      setTimeout(function(){$('.fight-screen .stage h2').addClass('fight');},1500);
-      // setTimeout(function(){$('.fight-screen').removeClass('activate');},1500);
       $('.player-health, .opponent-health').empty();
-      //game.fightOverTaunt
+      $('.player-name, .opponent-name').empty();
+      $('.fight-screen .stage').removeClass(game.opponent.stage);
+      game.opponent = {};
+      game.player = {};
+      game.player.hp = 100;
+      game.opponent.hp = 100;
+      game.attackComplete = false;
+      game.fightOver = false;
+      game.winner = false;
+      game.player.isSelected = false;
+      game.opponentBin = [];
+      $('.character-select li').removeClass('selected');
+      $('.end-taunt').removeClass('activate');
+      $('.end-taunt h2').remove();
+      $('.selected-player').removeClass(game.player.className, game.opponent.className);
+      //reset the stage
+      game.launchSelectPlayer();
+
     }
-  }
 }
 
 var characters = [
@@ -203,7 +260,7 @@ var characters = [
     attk: 'hi',
     def: 'lo',
     className: 'blade',
-    stage: 'turf',
+    stage: 'bagno',
     hp: 100,
     isSelected: false,
     readyTaunt: 'Get ready to eat a knuckle sandwich!',
@@ -214,7 +271,7 @@ var characters = [
     attk: 'lo',
     def: 'hi',
     className: 'jerry',
-    stage: 'turf',
+    stage: 'road',
     hp: 100,
     isSelected: false,
     readyTaunt: 'Snitches get stitches!',
@@ -225,7 +282,7 @@ var characters = [
     attk: 'med',
     def: 'med',
     className: 'reggie',
-    stage: 'turf',
+    stage: 'river',
     hp: 100,
     isSelected: false,
     readyTaunt: 'It\'s go time!',
@@ -238,3 +295,4 @@ $('#start ul > li').on('click', game.selectPlayer)
 $('#opponents ul').on('click', 'li', game.chooseOpponent);
 $('.start-fight').on('click', game.startFight);
 $('.attack').on('click', game.attack);
+$('.restart').on('click', game.resetFight);

@@ -1157,7 +1157,7 @@ body {
   border: 0;
   display: block; }
 
-.start-fight, .attack {
+.start-fight, .attack, .restart {
   margin: 0 auto; }
 
 .modal {
@@ -1334,7 +1334,7 @@ html {
   max-width: 250px;
   margin: 0 auto; }
 
-.taunt-screen .selected-player .dude {
+.taunting .selected-player .dude {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1356,6 +1356,15 @@ html {
 
 .fight-screen .stage.turf {
   background-image: url(../images/turf.jpg); }
+
+.fight-screen .stage.river {
+  background-image: url(../images/river.jpg); }
+
+.fight-screen .stage.bagno {
+  background-image: url(../images/bagno.jpg); }
+
+.fight-screen .stage.road {
+  background-image: url(../images/road.jpg); }
 
 .fight-screen .dude {
   top: 200px; }
@@ -1388,7 +1397,7 @@ html {
   max-width: 680px;
   margin: 0 auto; }
 
-.opponent-health {
+.opponent-info {
   text-align: right; }
 
 .fighter {

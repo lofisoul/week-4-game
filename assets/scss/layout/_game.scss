@@ -156,7 +156,7 @@ html {
 }
 
 //taunt
-.taunt-screen .selected-player .dude {
+.taunting .selected-player .dude {
   @include centerer(true,true);
 }
 
@@ -176,6 +176,18 @@ html {
 
 .fight-screen .stage.turf {
   background-image:url(../images/turf.jpg);
+}
+
+.fight-screen .stage.river {
+  background-image:url(../images/river.jpg);
+}
+
+.fight-screen .stage.bagno {
+  background-image:url(../images/bagno.jpg);
+}
+
+.fight-screen .stage.road {
+  background-image:url(../images/road.jpg);
 }
 
 .fight-screen .dude {
@@ -211,7 +223,7 @@ html {
   margin:0 auto;
 }
 
-.opponent-health {
+.opponent-info {
   text-align:right;
 }
 
